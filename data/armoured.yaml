@@ -1,0 +1,10 @@
+train: /content/drive/MyDrive/mydate/images/train  # train images (relative to 'path') 128 images
+val: /content/drive/MyDrive/mydate/images/train  # val images (relative to 'path') 128 images
+ 
+# Classes
+nc: 14   # number of classes
+names: ['蓝方哨兵装甲板 blue0','蓝方英雄装甲板 blue1','蓝方工程装甲板 blue2','3 未发现','蓝方四号步兵装甲板 blue4',
+        '蓝方五号步兵装甲板 blue5','蓝方基地及前哨站装甲板 blue6','红方哨兵装甲板 red0',
+        '红方英雄装甲板 red1','红方工程装甲板 red2','10 未发现',
+        '红方四号步兵装甲板 red4 ','红方五号步兵装甲板 red5','红方基地及前哨站装甲板 red6']
+# class names
