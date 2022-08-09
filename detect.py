@@ -155,10 +155,11 @@ def run(
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
-
                 # Write results
                 #####################
                 *xyxy,conf,cls = max(reversed(det),key=lambda x:(x[2]-x[0])*(x[3]-x[1]))
+                x,y,_,_ = (xyxy2xywh(torch.tensor(xyxy).view(1, 4))).view(-1).tolist()
+                print(x,y)
                 # for *xyxy, conf, cls in reversed(det):
                 #     _,_,w,h = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()
                 #     s = w*h
