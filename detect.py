@@ -158,8 +158,7 @@ def run(
                 # Write results
                 #####################
                 *xyxy,conf,cls = max(reversed(det),key=lambda x:(x[2]-x[0])*(x[3]-x[1]))
-                x,y,_,_ = (xyxy2xywh(torch.tensor(xyxy).view(1, 4))).view(-1).tolist()
-                print(x,y)
+                x,y,_,_ = ((xyxy2xywh(torch.tensor(xyxy).view(1, 4)))/gn).view(-1).tolist()
                 # for *xyxy, conf, cls in reversed(det):
                 #     _,_,w,h = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()
                 #     s = w*h
@@ -171,11 +170,11 @@ def run(
                     line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
                     with open(f'{txt_path}.txt', 'a') as f:
                         f.write(('%g ' * len(line)).rstrip() % line + '\n')
-
+                        
                 if save_img or save_crop or view_img:  # Add bbox to image
                     c = int(cls)  # integer class
                     label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
-                    annotator.box_label(xyxy, label, color=(255,0,0))
+                    annotator.box_label(xyxy,'({},{})'.format(str(round(x,5)),str(round(y,5))), color=(255,0,0))
                 if save_crop:
                     save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
@@ -223,7 +222,7 @@ def run(
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'yolov5s.pt', help='model path(s)')
+    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'best.pt', help='model path(s)')
     parser.add_argument('--source', type=str, default=ROOT / 'data/images', help='file/dir/URL/glob, 0 for webcam')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
